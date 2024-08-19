@@ -1,0 +1,7 @@
+{
+  "name": "Mobile2024",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
