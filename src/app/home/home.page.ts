@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router, NavigationExtras } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -7,33 +7,35 @@ import { Router, NavigationExtras } from '@angular/router';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
 
   user = {
-    "username": "",
-    "password": ""
-  }
-  username: String = "";
-  password: String = "";
+    username: '',
+    password: '',
+  };
+  mensaje = '';
 
-  Validar() {
-    if (this.username.length != 0) {
-      if (this.password.length != 0) {
-        console.log("username:" + this.username + "\n password: " + this.password)
+  validar() {
+    if (this.user.username.length != 0) {
+      if (this.user.password.length != 0) {
+        //Funciona
+        this.mensaje = 'Conexion exitosa';
         let navigationExtras: NavigationExtras = {
           state: {
-            "username": this.username,
-            "password": this.password
-          }
-        }
-        this.router.navigate(["/dashboard"], navigationExtras)
+            username: this.user.username,
+            password: this.user.password,
+          },
+        };
+        this.router.navigate(['/perfil'], navigationExtras);
       } else {
-        console.log("Contraseña vacia ")
+        console.log('Contraseña vacia');
+        this.mensaje = 'Contraseña vacia';
+        //No funciona
       }
     } else {
-      console.log("Username Vacio")
+      console.log('Usuario vacio');
+      this.mensaje = 'Usuario Vacio';
+      //Tampoco funciona
     }
-
   }
 }
