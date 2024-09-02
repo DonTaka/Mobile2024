@@ -6,6 +6,7 @@ import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { HeaderComponent } from '../Base/header/header.component';
 
 
 @NgModule({
@@ -16,6 +17,6 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
     HomePageRoutingModule,
     MatProgressSpinner
   ],
-  declarations: [HomePage]
+  declarations: [HomePage,HeaderComponent]
 })
 export class HomePageModule { }
