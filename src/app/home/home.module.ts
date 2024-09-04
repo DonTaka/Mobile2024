@@ -8,15 +8,14 @@ import { HomePageRoutingModule } from './home-routing.module';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { HeaderComponent } from '../Base/header/header.component';
 
-
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
     HomePageRoutingModule,
-    MatProgressSpinner
+    MatProgressSpinner,
   ],
-  declarations: [HomePage,HeaderComponent]
+  declarations: [HomePage, HeaderComponent],
 })
-export class HomePageModule { }
+export class HomePageModule {}
