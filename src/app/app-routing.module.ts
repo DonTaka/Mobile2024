@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { authGuard } from './Servicios/auth.guard';
 
 const routes: Routes = [
   {
     path: 'home',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
+    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
   },
   {
     path: '',
@@ -13,12 +14,20 @@ const routes: Routes = [
   },
   {
     path: 'register',
-    loadChildren: () => import('./Access/register/register.module').then( m => m.RegisterPageModule)
+    loadChildren: () => import('./Access/register/register.module').then(m => m.RegisterPageModule)
   },
   {
     path: 'perfil',
-    loadChildren: () => import('./Access/perfil/perfil.module').then( m => m.PerfilPageModule)
+    loadChildren: () => import('./Access/perfil/perfil.module').then(m => m.PerfilPageModule),
+    //la implementacion de canActivate le indica a ionic que debe verificar el guard para poder redireccionar
+    canActivate: [authGuard]
   },
+  //Pagina configurada con ** queda indicada como pagina de redireccionamiento en casos de error 
+  {
+    path: '**',
+    loadChildren: () => import('./error/error.module').then(m => m.ErrorPageModule)
+  },
+
 ];
 
 @NgModule({

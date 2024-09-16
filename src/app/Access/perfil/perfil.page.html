@@ -3,6 +3,11 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="logout()" fill="clear">
+        Desconectar
+      </ion-button>
+    </ion-buttons>
     <ion-title>Perfil</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -41,14 +46,13 @@
               <ion-select-option value="Magister">Magister</ion-select-option>
             </ion-select>
           </ion-item>
-          <ion-item >
+          <ion-item>
             <ion-label style="text-align: start;">Fecha Nacimiento</ion-label>
             <ion-datetime-button datetime="datetime"></ion-datetime-button>
 
             <ion-modal [keepContentsMounted]="true">
               <ng-template>
-                <ion-datetime id="datetime"
-                presentation="date"></ion-datetime>
+                <ion-datetime id="datetime" presentation="date"></ion-datetime>
               </ng-template>
             </ion-modal>
           </ion-item>

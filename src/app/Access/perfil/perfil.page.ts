@@ -1,3 +1,4 @@
+import { AuthenticatorService } from './../../Servicios/authenticator.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -8,7 +9,7 @@ import { Router } from '@angular/router';
 })
 export class PerfilPage implements OnInit {
   username = '';
-  constructor(private router: Router) {
+  constructor(private router: Router, private auth: AuthenticatorService) {
     const navegacion = this.router.getCurrentNavigation();
     const state = navegacion?.extras.state as {
       username: '';
@@ -18,6 +19,9 @@ export class PerfilPage implements OnInit {
     //Console.log
     //Mensaje bienvenida
   }
-
-  ngOnInit() {}
+  logout() {
+    this.auth.logout()
+    this.router.navigate(['/home']);
+  }
+  ngOnInit() { }
 }

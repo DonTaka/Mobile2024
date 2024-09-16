@@ -1,3 +1,4 @@
+import { AuthenticatorService } from './../Servicios/authenticator.service';
 import { Component } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { AnimationController } from '@ionic/angular';
@@ -18,7 +19,7 @@ export class HomePage {
   /* Estado de carga */
   spinner = false;
 
-  constructor(private router: Router, private animationController: AnimationController) {
+  constructor(private router: Router, private animationController: AnimationController, private auth: AuthenticatorService) {
 
 
   }
@@ -48,33 +49,26 @@ export class HomePage {
     this.spinner = !this.spinner;
   }
   validar() {
-    if (this.user.username.length != 0) {
-      if (this.user.password.length != 0) {
-        //Funciona
-        this.mensaje = 'Conexion exitosa';
-        let navigationExtras: NavigationExtras = {
-          state: {
-            username: this.user.username,
-            password: this.user.password,
-          },
-        };
-        this.cambiarSpinner();
-        /* setTimeout = permite generar un pequeño delay para realizar la accion */
-        setTimeout(() => {
+    if (this.auth.login(this.user.username, this.user.password)) {
+      //Funciona
+      this.mensaje = 'Conexion exitosa';
+      let navigationExtras: NavigationExtras = {
+        state: {
+          username: this.user.username,
+          password: this.user.password,
+        },
+      };
+      this.cambiarSpinner();
+      /* setTimeout = permite generar un pequeño delay para realizar la accion */
+      setTimeout(() => {
 
-          this.router.navigate(['/perfil'], navigationExtras);
-          this.cambiarSpinner();
-          this.mensaje = "";
-        }, 3000);
-      } else {
-        console.log('Contraseña vacia');
-        this.mensaje = 'Contraseña vacia';
-        //No funciona
-      }
+        this.router.navigate(['/perfil'], navigationExtras);
+        this.cambiarSpinner();
+        this.mensaje = "";
+      }, 3000);
     } else {
-      console.log('Usuario vacio');
-      this.mensaje = 'Usuario Vacio';
-      //Tampoco funciona
+      this.mensaje = 'Error en las credenciales';
+      //No funciona
     }
   }
 }
