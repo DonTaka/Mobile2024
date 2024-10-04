@@ -2,7 +2,6 @@ import { AuthenticatorService } from './../Servicios/authenticator.service';
 import { Component } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { AnimationController } from '@ionic/angular';
-import { StorageService } from '../Servicios/storage.service';
 
 @Component({
   selector: 'app-home',
@@ -23,17 +22,8 @@ export class HomePage {
   constructor(
     private router: Router,
     private animationController: AnimationController,
-    private auth: AuthenticatorService,
-    private storage: StorageService
-  ) { }
-
-  async ngOnInit() {
-    const test = this.storage.get('j.riquelmee');
-    test.then((val) => {
-      console.log(val)
-    },)
-  }
-
+    private auth: AuthenticatorService
+  ) {}
   ngAfterContentInit() {
     this.animarLogin();
   }
@@ -61,25 +51,26 @@ export class HomePage {
     this.spinner = !this.spinner;
   }
   validar() {
-    if (this.auth.loginBDD(this.user.username, this.user.password)) {
-      //Funciona
-      this.mensaje = 'Conexion exitosa';
-      let navigationExtras: NavigationExtras = {
-        state: {
-          username: this.user.username,
-          password: this.user.password,
-        },
-      };
-      this.cambiarSpinner();
-      /* setTimeout = permite generar un pequeño delay para realizar la accion */
-      setTimeout(() => {
-        this.router.navigate(['/perfil'], navigationExtras);
+    this.auth
+      .loginBDD(this.user.username, this.user.password)
+      .then((res) => {
+        this.mensaje = 'Conexion exitosa';
+        let navigationExtras: NavigationExtras = {
+          state: {
+            username: this.user.username,
+            password: this.user.password,
+          },
+        };
         this.cambiarSpinner();
-        this.mensaje = '';
-      }, 3000);
-    } else {
-      this.mensaje = 'Error en las credenciales';
-      //No funciona
-    }
+        /* setTimeout = permite generar un pequeño delay para realizar la accion */
+        setTimeout(() => {
+          this.router.navigate(['/perfil'], navigationExtras);
+          this.cambiarSpinner();
+          this.mensaje = '';
+        }, 3000);
+      })
+      .catch((error) => {
+        this.mensaje = 'Error en las credenciales';
+      });
   }
 }

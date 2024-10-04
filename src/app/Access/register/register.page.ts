@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { StorageService } from 'src/app/Servicios/storage.service';
+import { ToastController } from '@ionic/angular';
+import { AuthenticatorService } from 'src/app/Servicios/authenticator.service';
 
 @Component({
   selector: 'app-register',
@@ -8,21 +9,39 @@ import { StorageService } from 'src/app/Servicios/storage.service';
   styleUrls: ['./register.page.scss'],
 })
 export class RegisterPage implements OnInit {
-
   user = {
-    username: "",
-    email: "",
-    password: ""
-  }
-  constructor(private storage: StorageService, private router: Router) { }
+    username: '',
+    email: '',
+    password: '',
+  };
+  constructor(
+    private auth: AuthenticatorService,
+    private router: Router,
+    private toastController: ToastController
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
-  registrar() {
-    console.log(this.user)
-    this.storage.set(this.user.username, this.user);
-    this.router.navigate(['/home'])
+  async registrar() {
+    this.auth
+      .registrar(this.user)
+      .then((res) => {
+        this.router.navigate(['/home']);
+        return this.toastController.create({
+          message: 'Registrado con exito',
+          duration: 5000,
+          position: 'bottom',
+        });
+      })
+      .then((toast) => toast.present())
+      .catch((error) => {
+        return this.toastController
+          .create({
+            message: 'Error al registrar',
+            duration: 5000,
+            position: 'bottom',
+          })
+          .then((toast) => toast.present());
+      });
   }
-
 }

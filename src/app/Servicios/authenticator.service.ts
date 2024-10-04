@@ -2,49 +2,61 @@ import { Injectable } from '@angular/core';
 import { StorageService } from './storage.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthenticatorService {
   //Generamos una variable boolean para rectificar el actual estado de conexion con el autentificador
-  connnectionStatus: boolean;
-  constructor(private storage: StorageService) {
-    this.connnectionStatus = false;
-  }
-  loginBDD(user: string, pass: String): boolean {
-    this.storage.get(user).then((val) => {
-      if (val.password == pass) {
-        console.log("usuario encontrado");
-        this.connnectionStatus = true;
-      } else {
-        console.log("error pass");
-      }
-    }).catch((error) => {
-      console.log("Error credenciales")
-      this.connnectionStatus = false;
-    });
-    if (this.connnectionStatus) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+  connnectionStatus: boolean = false;
+  constructor(private storage: StorageService) {}
 
-  //Generamos funcion para validar usuario contraseña 
-  //Si equivale a los datos configurados entregara valor true si no Indicara falso 
+  loginBDD(user: string, pass: String): Promise<boolean> {
+    //OBtengo un promise
+    //Promise tiene 2 valores || resuelto y no resuelto
+    return this.storage
+      .get(user)
+      .then((res) => {
+        //Si funciona me devuelve el user completo
+        if (res.password == pass) {
+          this.connnectionStatus = true;
+          return true;
+        } else {
+          return false;
+        }
+      })
+      .catch((error) => {
+        console.log('Error en el sistema: ' + error);
+        return false;
+      });
+  }
+  //Generamos funcion para validar usuario contraseña
+  //Si equivale a los datos configurados entregara valor true si no Indicara falso
   login(user: String, pass: String): boolean {
-    if (user == "j.riquelmee" && pass == "pass1234") {
+    if (user == 'j.riquelmee' && pass == 'pass1234') {
       this.connnectionStatus = true;
       return true;
     }
     this.connnectionStatus = false;
-    return false
+    return false;
   }
-  //Logout para desconectar del sistema 
+  //Logout para desconectar del sistema
   logout() {
     this.connnectionStatus = false;
   }
   //Funcion para consultar el estado de conexion
   isConected() {
     return this.connnectionStatus;
+  }
+  async registrar(user: any):Promise<boolean> {
+    //set(llave,valor)
+    return this.storage.set(user.username, user).then((res) => {
+        if (res != null) {
+          return true;
+        }else{
+          return false;
+        }
+      })
+      .catch((error) => {
+        return false;
+      });
   }
 }
