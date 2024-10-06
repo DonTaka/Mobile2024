@@ -1,0 +1,57 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Controller</ion-title>
+    <ion-back-button fill="clear" slot="start">
+      Volver
+    </ion-back-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Controller</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <div id="container">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Mantenedor Usuarios</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list>
+          <ion-item>
+            <ion-button fill="clear" slot="end">
+              Agregar nuevo Usuario
+            </ion-button>
+          </ion-item>
+          <ion-grid fixed>
+            <ion-row>
+              <ion-col><strong>Nombre Usuario</strong></ion-col>
+              <ion-col><strong>Correo Usuario</strong></ion-col>
+              <ion-col><strong>Contraseña Usuario</strong></ion-col>
+              <ion-col><strong>Modificar</strong></ion-col>
+              <ion-col><strong>Eliminar</strong></ion-col>
+            </ion-row>
+            <ion-row *ngFor="let user of users">
+              <ion-col>{{user.username}}</ion-col>
+              <ion-col>{{user.email}}</ion-col>
+              <ion-col>{{user.password}}</ion-col>
+              <ion-col (click)="modificarUsuario(user.id)">
+                <ion-button fill="outline" size="small">
+                  Modificar
+                </ion-button>
+              </ion-col>
+              <ion-col (click)="eliminarUsuario(user.id)">
+                <ion-button fill="outline" size="small">
+                  Eliminar
+                </ion-button>
+              </ion-col>
+            </ion-row>
+            <ion-spinner *ngIf="users.length === 0"></ion-spinner>
+          </ion-grid>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

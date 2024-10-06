@@ -22,11 +22,16 @@ const routes: Routes = [
     //la implementacion de canActivate le indica a ionic que debe verificar el guard para poder redireccionar
     canActivate: [authGuard]
   },
+  {
+    path: 'controller',
+    loadChildren: () => import('./Admin/controller/controller.module').then(m => m.ControllerPageModule)
+  },
   //Pagina configurada con ** queda indicada como pagina de redireccionamiento en casos de error 
   {
     path: '**',
     loadChildren: () => import('./error/error.module').then(m => m.ErrorPageModule)
   },
+
 
 ];
 

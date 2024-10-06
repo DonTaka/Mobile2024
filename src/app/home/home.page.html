@@ -3,6 +3,9 @@
     <ion-title>
       Login de Acceso
     </ion-title>
+    <ion-button [routerLink]="['/controller']" fill=clear slot="end">
+      Admin
+    </ion-button>
   </ion-toolbar>
 </ion-header>
 
@@ -51,7 +54,7 @@
           </div>
           <ion-button fill="outline" (click)="validar()">Conectar</ion-button><br>
           <ion-button fill="outline" [routerLink]="['/register']">Registrar</ion-button>
-        </ion-list>        
+        </ion-list>
       </ion-card-content>
     </ion-card>
   </div>
