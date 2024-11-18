@@ -2,6 +2,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { HomePage } from './home.page';
+import { IonicStorageModule } from '@ionic/storage-angular';
+
+
 
 describe('HomePage', () => {
   let component: HomePage;
@@ -10,7 +13,7 @@ describe('HomePage', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [HomePage],
-      imports: [IonicModule.forRoot()]
+      imports: [IonicModule.forRoot(), IonicStorageModule.forRoot()]
     }).compileComponents();
 
     fixture = TestBed.createComponent(HomePage);
@@ -21,4 +24,8 @@ describe('HomePage', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+  it('should render the title', () => {
+    const comp = fixture.nativeElement as HTMLElement
+    expect(comp.querySelector('ion-title')?.textContent).toContain('Login de Acceso')
+  })
 });

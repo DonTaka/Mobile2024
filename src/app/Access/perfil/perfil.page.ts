@@ -8,14 +8,14 @@ import { Router } from '@angular/router';
   styleUrls: ['./perfil.page.scss'],
 })
 export class PerfilPage implements OnInit {
-  username = '';
+  private username: String = "";
   constructor(private router: Router, private auth: AuthenticatorService) {
     const navegacion = this.router.getCurrentNavigation();
     const state = navegacion?.extras.state as {
       username: '';
       password: '';
     };
-    this.username = state.username;
+    this.username ? state.username : null
     //Console.log
     //Mensaje bienvenida
   }

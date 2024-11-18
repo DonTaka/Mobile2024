@@ -2,6 +2,7 @@ import { AuthenticatorService } from './../Servicios/authenticator.service';
 import { Component } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { AnimationController } from '@ionic/angular';
+import { Geolocation } from '@capacitor/geolocation';
 
 @Component({
   selector: 'app-home',
@@ -23,7 +24,14 @@ export class HomePage {
     private router: Router,
     private animationController: AnimationController,
     private auth: AuthenticatorService
-  ) {}
+  ) { }
+  ngOnInit() {
+    const coordenadas = Geolocation.getCurrentPosition();
+    coordenadas.then((data) => {
+      console.log("Coordenadas:\nLatitud: " + data.coords.latitude + " \nLongitud: " + data.coords.longitude);
+
+    })
+  }
   ngAfterContentInit() {
     this.animarLogin();
   }
